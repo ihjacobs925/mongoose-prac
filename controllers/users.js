@@ -55,4 +55,28 @@ router.post('/', (req, res) => {
     });
 });
 
+// Update - PUT /users/:id
+router.put('/:id', (req, res) => {
+    //User.update({}, {meta: { website: 'www.google.com' }}, (err, user) => {})
+    // User.findOneAndUpdate()
+    User.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err, user) => {
+        if (err) {
+            console.error(`ERROR in USERS update ROUTE:\n${err}`);
+            res.status(500).json({ error: `ERROR in USERS update ROUTE`})
+        }
+        res.json({ user });
+    });
+});
+
+//Delete - DELETE /users/:id
+router.delete('/:id', (req, res) => {
+    User.findByIdAndDelete(req.params.id, (err, user) => {
+        if (err) {
+            console.error(`ERROR in USERS delete ROUTE:\n${err}`);
+            res.status(500).json({ error: `ERROR in USERS delete ROUTE`})
+        }
+        res.json({ deleted: user })
+    });
+});
+
 module.exports = router;
